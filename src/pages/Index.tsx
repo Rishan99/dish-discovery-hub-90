@@ -75,6 +75,18 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Admin Button */}
+      <div className="fixed top-4 right-4 z-50">
+        <Button
+          onClick={() => console.log('Navigate to admin')}
+          variant="outline"
+          size="sm"
+          className="bg-background/80 backdrop-blur-sm border-border/50 hover:bg-accent"
+        >
+          Admin
+        </Button>
+      </div>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div 
