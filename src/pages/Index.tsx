@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { SearchInput } from "@/components/ui/search-input";
 import { RestaurantCard } from "@/components/restaurant-card";
+import { Button } from "@/components/ui/button";
 import { mockRestaurants, Restaurant } from "@/data/mock-restaurants";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import heroImage from "@/assets/hero-food.jpg";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Restaurant[]>([]);
+  const [showAllFeatured, setShowAllFeatured] = useState(false);
+  const [showAllNearest, setShowAllNearest] = useState(false);
+  const [showAllSearch, setShowAllSearch] = useState(false);
 
-  const featuredRestaurants = mockRestaurants.slice(0, 3);
+  const INITIAL_DISPLAY_COUNT = 6;
+
+  const featuredRestaurants = mockRestaurants.slice(0, 8); // More restaurants for demo
   const nearestRestaurants = mockRestaurants.slice(3);
 
   const handleSearch = (query: string) => {
@@ -32,6 +39,38 @@ const Index = () => {
 
   const handleMenuClick = (menuId: string) => {
     console.log(`Navigate to menu: ${menuId}`);
+  };
+
+  const renderShowMoreButton = (
+    isExpanded: boolean,
+    toggleExpanded: () => void,
+    totalCount: number,
+    visibleCount: number
+  ) => {
+    if (totalCount <= INITIAL_DISPLAY_COUNT) return null;
+
+    return (
+      <div className="flex justify-center mt-12">
+        <Button
+          onClick={toggleExpanded}
+          variant="outline"
+          size="lg"
+          className="group px-8 py-3 rounded-full border-2 border-primary/20 hover:border-primary bg-background hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+        >
+          {isExpanded ? (
+            <>
+              <ChevronUp className="mr-2 h-5 w-5 transition-transform group-hover:-translate-y-1" />
+              Show Less
+            </>
+          ) : (
+            <>
+              <ChevronDown className="mr-2 h-5 w-5 transition-transform group-hover:translate-y-1" />
+              Show More ({totalCount - visibleCount} more)
+            </>
+          )}
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -101,19 +140,28 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredRestaurants.map((restaurant, index) => (
-              <div 
-                key={restaurant.id}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <RestaurantCard
-                  restaurant={restaurant}
-                  onMenuClick={handleMenuClick}
-                />
-              </div>
-            ))}
+            {featuredRestaurants
+              .slice(0, showAllFeatured ? featuredRestaurants.length : INITIAL_DISPLAY_COUNT)
+              .map((restaurant, index) => (
+                <div 
+                  key={restaurant.id}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <RestaurantCard
+                    restaurant={restaurant}
+                    onMenuClick={handleMenuClick}
+                  />
+                </div>
+              ))}
           </div>
+
+          {renderShowMoreButton(
+            showAllFeatured,
+            () => setShowAllFeatured(!showAllFeatured),
+            featuredRestaurants.length,
+            showAllFeatured ? featuredRestaurants.length : Math.min(INITIAL_DISPLAY_COUNT, featuredRestaurants.length)
+          )}
         </section>
 
         {/* Search Results */}
@@ -136,19 +184,28 @@ const Index = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {searchResults.map((restaurant, index) => (
-                <div 
-                  key={restaurant.id}
-                  className="animate-scale-in"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <RestaurantCard
-                    restaurant={restaurant}
-                    onMenuClick={handleMenuClick}
-                  />
-                </div>
-              ))}
+              {searchResults
+                .slice(0, showAllSearch ? searchResults.length : INITIAL_DISPLAY_COUNT)
+                .map((restaurant, index) => (
+                  <div 
+                    key={restaurant.id}
+                    className="animate-scale-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <RestaurantCard
+                      restaurant={restaurant}
+                      onMenuClick={handleMenuClick}
+                    />
+                  </div>
+                ))}
             </div>
+
+            {renderShowMoreButton(
+              showAllSearch,
+              () => setShowAllSearch(!showAllSearch),
+              searchResults.length,
+              showAllSearch ? searchResults.length : Math.min(INITIAL_DISPLAY_COUNT, searchResults.length)
+            )}
           </section>
         )}
 
@@ -170,19 +227,28 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {nearestRestaurants.map((restaurant, index) => (
-              <div 
-                key={restaurant.id}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <RestaurantCard
-                  restaurant={restaurant}
-                  onMenuClick={handleMenuClick}
-                />
-              </div>
-            ))}
+            {nearestRestaurants
+              .slice(0, showAllNearest ? nearestRestaurants.length : INITIAL_DISPLAY_COUNT)
+              .map((restaurant, index) => (
+                <div 
+                  key={restaurant.id}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <RestaurantCard
+                    restaurant={restaurant}
+                    onMenuClick={handleMenuClick}
+                  />
+                </div>
+              ))}
           </div>
+
+          {renderShowMoreButton(
+            showAllNearest,
+            () => setShowAllNearest(!showAllNearest),
+            nearestRestaurants.length,
+            showAllNearest ? nearestRestaurants.length : Math.min(INITIAL_DISPLAY_COUNT, nearestRestaurants.length)
+          )}
         </section>
       </div>
     </div>
