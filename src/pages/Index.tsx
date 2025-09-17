@@ -42,17 +42,13 @@ const Index = () => {
           className="h-[700px] bg-cover bg-center bg-no-repeat relative"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0 bg-gradient-overlay" />
-          
-          {/* Decorative elements */}
-          <div className="absolute top-10 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-bounce-subtle" />
-          <div className="absolute bottom-20 right-20 w-32 h-32 bg-accent-gold/20 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute inset-0 bg-black/40" />
           
           <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
             <div className="max-w-3xl text-white animate-fade-in">
               <h1 className="font-playfair text-6xl md:text-7xl font-bold mb-8 leading-tight">
                 Find Your Next 
-                <span className="block text-gradient bg-gradient-to-r from-white via-accent-gold to-white bg-clip-text text-transparent">
+                <span className="block text-white">
                   Favorite Meal
                 </span>
               </h1>
@@ -65,7 +61,7 @@ const Index = () => {
                   placeholder="Search restaurants, cuisines, or dishes..."
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="glass text-foreground placeholder:text-muted-foreground/70 shadow-hero border-0"
+                  className="bg-white/90 backdrop-blur-sm text-foreground placeholder:text-muted-foreground/70 border-0 shadow-lg"
                 />
               </div>
 
@@ -75,7 +71,7 @@ const Index = () => {
                   <button
                     key={suggestion}
                     onClick={() => handleSearch(suggestion)}
-                    className="px-4 py-2 rounded-full glass text-sm font-medium text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 hover:scale-105"
+                    className="px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium text-white hover:bg-white/30 transition-all duration-200"
                   >
                     {suggestion}
                   </button>

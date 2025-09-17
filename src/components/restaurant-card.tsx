@@ -27,7 +27,7 @@ interface RestaurantCardProps {
 
 export function RestaurantCard({ restaurant, onMenuClick }: RestaurantCardProps) {
   return (
-    <Card className="group overflow-hidden bg-gradient-card shadow-card hover:shadow-card-hover transition-all duration-500 transform hover:-translate-y-2 animate-fade-in-up shine border-0">
+    <Card className="group overflow-hidden bg-card shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1 animate-fade-in-up border border-border/50">
       <div className="relative overflow-hidden">
         <img
           src={restaurant.image}
@@ -36,14 +36,14 @@ export function RestaurantCard({ restaurant, onMenuClick }: RestaurantCardProps)
         />
         <div className="absolute inset-0 bg-gradient-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         
-        {/* Floating rating badge */}
-        <div className="absolute top-4 right-4 glass rounded-2xl px-3 py-2 flex items-center gap-1.5 floating">
-          <Star className="h-4 w-4 fill-accent-gold text-accent-gold" />
-          <span className="text-sm font-semibold text-foreground">{restaurant.rating}</span>
+        {/* Rating badge */}
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 flex items-center gap-1.5">
+          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+          <span className="text-sm font-medium text-foreground">{restaurant.rating}</span>
         </div>
 
         {/* Delivery time badge */}
-        <div className="absolute top-4 left-4 bg-primary/90 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs font-medium text-primary-foreground">
+        <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-1.5 text-xs font-medium text-white">
           {restaurant.deliveryTime}
         </div>
       </div>
@@ -65,10 +65,9 @@ export function RestaurantCard({ restaurant, onMenuClick }: RestaurantCardProps)
             <div
               key={cuisine}
               className={cn(
-                "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 hover:scale-105",
-                index === 0 && "bg-gradient-hero text-white shadow-hero",
-                index === 1 && "bg-gradient-accent text-white",
-                index >= 2 && "bg-secondary/80 text-secondary-foreground hover:bg-secondary"
+                "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200",
+                index === 0 && "bg-primary text-primary-foreground",
+                index >= 1 && "bg-secondary text-secondary-foreground"
               )}
             >
               {cuisine}
@@ -90,9 +89,8 @@ export function RestaurantCard({ restaurant, onMenuClick }: RestaurantCardProps)
                 key={menu.id}
                 onClick={() => onMenuClick?.(menu.id)}
                 className={cn(
-                  "group/menu w-full text-left px-4 py-3 rounded-xl transition-all duration-300 hover:scale-[1.02] border border-transparent",
-                  "bg-gradient-to-r from-background to-background/50 hover:from-primary/5 hover:to-primary/10",
-                  "hover:border-primary/20 hover:shadow-card"
+                  "group/menu w-full text-left px-4 py-3 rounded-lg transition-all duration-200 border border-border/50",
+                  "bg-background hover:bg-muted hover:border-border"
                 )}
               >
                 <div className="flex items-center justify-between">
